@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/mystyle.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Nunito" />
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script type='text/javascript' src="/js/main.js"></script>
+      <script src="http://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.0/mustache.min.js"></script>
+  </head>
+  <body >
+  
+    <div class="editor-title">
+    </br>
+       <h1>Floor Plan Selection</h1>
+    </div>
+    <div  id="input-alert" style="opacity:0;" class="alert alert-danger">
+      temp
+    </div>
+   
+   <div id="result2" style="display: none;">
+    {{#dropdown_data}}
+    {{building}},{{floor}},
+    {{/dropdown_data}}
+  </div>
+   
+    <!-- Modal -->
+    <div id="saveModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <div  id="main-alert" >
+            </div>
+          </div>
+          <div class="modal-body">
+            <img alt=""  id="show_image" class="modal-image" >
+          </div>
+          <div class="modal-footer">       
+            <a id="edit_save"><button type="button" class="btn btn-primary" >Edit</button></a>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Modal -->
+    <div id="loadModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+         
+          <div class="modal-body">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <img alt=""  id="load_image"  class="modal-image">
+          </div>
+          <div class="modal-footer">       
+            <a id="edit_load"><button type="button" class="btn btn-primary" >Edit</button></a>
+            <a id="delete" ><button type="button" class="btn btn-primary" >Delete</button></a>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="well select">
+      <div class="title-inline"><h3>Open a floor plan:</h3></div>
+      <form id       =  "loadForm"
+           name      =  "loadForm"
+           action    =  "/load"
+           method    =  "post"
+           onsubmit  = "return validateLoadForm()"
+      >
+        <div class="form">
+          Building Name:
+          <select name="building_name" id="building_open">
+            <option value="" disabled selected> -- select an option -- </option>
+          </select>
+        </div>
+        <div class="form">
+          Floor Number:
+          <select name="floor" id="floor_open">
+            <option value="" disabled selected> -- select an option -- </option>
+          </select>
+        </div>
+        <div class="form">
+          <input type="submit" value="Open"  class="btn btn-info btn-lg" data-target="#loadModal">
+        </div>
+      </form>
+
+      <div class="title-inline"><h3>Add a new Floor Plan:</h3></div>
+       <div class="title-inline"><a class="btn btn-large" href='#' data-toggle="popover" 
+        data-content="The system accepts only SVG floor plans.">
+        <i class="glyphicon glyphicon-question-sign"></i></a></div>
+      <form id       = "saveForm"
+           name      = "saveForm"
+           action    =  "/new"
+           method    =  "post"
+           onsubmit  = "return validateSaveForm()"
+      >
+        <div class="form">
+          Building Name:
+          <input type="text" name="building_name" >
+        </div>
+        <div class="form">
+          Floor Number:
+          <input type="number" name="floor" min="1" max="30" >
+        </div>
+        <div class="form">
+          <input type="file" name="floorplan" id="uploadFile" onchange="get_file_content()"> 
+        </div>
+        <input type="hidden" name="file_content" id="file_content" >
+        <div class="form">
+          <input type="submit" value="Save" name="submit" class="btn btn-info btn-lg" data-target="#saveModal" >
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
+
+

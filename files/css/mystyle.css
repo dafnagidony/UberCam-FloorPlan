@@ -1,0 +1,229 @@
+
+h1,h2,h3 {
+  font-family: Nunito;
+}
+.alert {
+  width:500px;
+  margin: auto;
+  margin-top: 25px;
+  text-align: center;
+}
+
+#scale-alert {
+  width:200px;
+  margin: auto;
+  margin-top: 25px;
+  text-align: center;
+}
+
+.modal-body input[type="radio"]{
+  margin: 10px 10px 20px 10px;
+}
+
+.modal-body input[type="number"]{
+  display: inline-block;
+  width: 70px;
+}
+
+.modal-body #wall_text {
+  display: inline-block;
+ margin-left: 10px;
+ margin-right: 10px;
+}
+
+.title-inline {
+  display: inline-block;
+  vertical-align: center;
+}
+
+.glyphicon-question-sign {
+    font-size: 1.4em;
+}
+
+.modal-image {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width:  450px;
+}
+
+
+.well.edit {
+  margin: auto;
+  margin-top: 20px;
+  width: 1100px;
+}
+
+.well.select {
+  position: relative;
+  margin: auto;
+  width: 500px;
+  
+}
+#floorplan {
+  position: relative;
+	background: white;
+	width: 950px;
+	display: inline-block;
+	margin:20px;
+}
+
+#scale_bar {
+  position:absolute;
+  left:850px;
+  top: 200px;
+}
+
+#floorplan_robot {
+  background: white;
+  margin-top: 16px;
+  position: relative;
+  left: 105px;
+  width: 950px;
+ 
+  display: inline-block;
+}
+
+.editor-title {
+	font-family: Nunito;
+	font-size: 18px;
+	font-style: normal;
+	font-variant: normal;
+	font-weigt: 500;
+	line-height: 26.3999996185303px;
+	text-align: center;
+	color: black;
+}
+
+.nav-tabs {
+  font-family: Nunito;
+  font-size: 16px;
+}
+.toolbar {
+	display: inline-block;
+	list-style-type: none;
+	width:50px;
+	
+  margin: auto;
+  vertical-align:top;
+}
+.toolbar_list {
+  padding-top: 20px;
+  padding-left: 0;
+  padding-right: 0;
+}
+.fa {
+	color: black;
+}
+
+#submit_button {
+  position: absolute;
+  left:650px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+#cancel_button {
+  position: absolute;
+  left:550px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.button-icon {
+  display: inline-block;
+  background: #CAD8E6;
+  border-radius: 5px;
+  width: 50px;
+  text-align: center;
+  padding-top: 0.7rem;
+  padding-bottom: 0.7rem;
+  vertical-align: middle;
+  line-height: 1;
+  text-decoration: none;
+  margin: 3px;
+  a {
+  	width: 100%;
+  	height: 100%;
+  }
+ }
+
+.button-icon:hover {
+  background-color: #A2ADB8;
+  text-decoration: none;
+}
+
+.button-icon.pressed {
+  	background-color: #778797;
+  	text-decoration: none;
+  } 
+
+.button-icon.disabled {
+    pointer-events: none;
+    opacity: 0.4;
+}
+
+
+.form {
+  margin-top: 20px;
+}
+
+g.state  {
+  stroke  : black;
+  stroke-width:5px;
+  stroke-opacity: 0.7;
+  stroke-dasharray: none;
+  opacity: 0.7;
+}
+
+g.state.selected  {
+  stroke: red;
+  stroke-width:5px;
+  stroke-opacity: 0.7;
+  stroke-dasharray: none;
+  opacity: 0.7;
+}
+
+g.state.mouseOver  {
+	stroke: red;
+	stroke-width:5px;
+	stroke-opacity: 0.7;
+  stroke-dasharray: none;
+	opacity: 0.7;
+}
+
+g.state.virtual  {
+	stroke: #D8D8D8;
+	stroke-width:5px;
+	stroke-opacity: 0.7;
+  stroke-dasharray: none;
+	opacity: 0.4;
+}
+
+g.state.virtual.selected  {
+  stroke: red;
+  stroke-width:5px;
+  stroke-opacity: 0.7;
+  stroke-dasharray: none;
+  opacity: 0.4;
+}
+
+g.state.virtual.mouseOver  {
+	stroke: red;
+	stroke-width:5px;
+	stroke-opacity: 0.7;
+  stroke-dasharray: none;
+  opacity: 0.4;
+}
+
+path.draw_path {
+	stroke: #D8D8D8;
+  stroke-width:2px;
+}
+polygon.draw_polygon {
+	stroke: #D8D8D8;
+  stroke-width:2px;
+  fill: #D8D8D8;
+}
+
+

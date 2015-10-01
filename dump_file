@@ -1,0 +1,174 @@
+--
+-- PostgreSQL database dump
+--
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: floorplans_table; Type: TABLE; Schema: public; Owner: ubercam; Tablespace: 
+--
+
+CREATE TABLE floorplans_table (
+    image_id integer NOT NULL,
+    image_name character varying(50) NOT NULL,
+    robot_view character varying(50),
+    user_id integer,
+    attributes jsonb
+);
+
+
+ALTER TABLE floorplans_table OWNER TO ubercam;
+
+--
+-- Name: floorplans_table_image_id_seq; Type: SEQUENCE; Schema: public; Owner: ubercam
+--
+
+CREATE SEQUENCE floorplans_table_image_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE floorplans_table_image_id_seq OWNER TO ubercam;
+
+--
+-- Name: floorplans_table_image_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: ubercam
+--
+
+ALTER SEQUENCE floorplans_table_image_id_seq OWNED BY floorplans_table.image_id;
+
+
+--
+-- Name: users; Type: TABLE; Schema: public; Owner: ubercam; Tablespace: 
+--
+
+CREATE TABLE users (
+    user_id integer NOT NULL,
+    user_name character varying(20) NOT NULL
+);
+
+
+ALTER TABLE users OWNER TO ubercam;
+
+--
+-- Name: users_user_id_seq; Type: SEQUENCE; Schema: public; Owner: ubercam
+--
+
+CREATE SEQUENCE users_user_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE users_user_id_seq OWNER TO ubercam;
+
+--
+-- Name: users_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: ubercam
+--
+
+ALTER SEQUENCE users_user_id_seq OWNED BY users.user_id;
+
+
+--
+-- Name: image_id; Type: DEFAULT; Schema: public; Owner: ubercam
+--
+
+ALTER TABLE ONLY floorplans_table ALTER COLUMN image_id SET DEFAULT nextval('floorplans_table_image_id_seq'::regclass);
+
+
+--
+-- Name: user_id; Type: DEFAULT; Schema: public; Owner: ubercam
+--
+
+ALTER TABLE ONLY users ALTER COLUMN user_id SET DEFAULT nextval('users_user_id_seq'::regclass);
+
+
+--
+-- Data for Name: floorplans_table; Type: TABLE DATA; Schema: public; Owner: ubercam
+--
+
+COPY floorplans_table (image_id, image_name, robot_view, user_id, attributes) FROM stdin;
+\.
+
+
+--
+-- Name: floorplans_table_image_id_seq; Type: SEQUENCE SET; Schema: public; Owner: ubercam
+--
+
+SELECT pg_catalog.setval('floorplans_table_image_id_seq', 1, true);
+
+
+--
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: ubercam
+--
+
+COPY users (user_id, user_name) FROM stdin;
+5	some_user
+\.
+
+
+--
+-- Name: users_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: ubercam
+--
+
+SELECT pg_catalog.setval('users_user_id_seq', 5, true);
+
+
+--
+-- Name: floorplans_table_pkey; Type: CONSTRAINT; Schema: public; Owner: ubercam; Tablespace: 
+--
+
+ALTER TABLE ONLY floorplans_table
+    ADD CONSTRAINT floorplans_table_pkey PRIMARY KEY (image_id);
+
+
+--
+-- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: ubercam; Tablespace: 
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (user_id);
+
+
+--
+-- Name: users_user_name_key; Type: CONSTRAINT; Schema: public; Owner: ubercam; Tablespace: 
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT users_user_name_key UNIQUE (user_name);
+
+
+--
+-- Name: user_index; Type: INDEX; Schema: public; Owner: ubercam; Tablespace: 
+--
+
+CREATE INDEX user_index ON floorplans_table USING btree (user_id);
+
+
+--
+-- Name: floorplans_table_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: ubercam
+--
+
+ALTER TABLE ONLY floorplans_table
+    ADD CONSTRAINT floorplans_table_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="/css/mystyle.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Nunito" />
+		<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		<script src="/js/functions.js"></script>
+		<script src="/js/edit_floorplan.js"></script>
+	</head>
+	<body>
+		<div class="well edit">
+			<div class="editor-title">
+				<h2>Building name: {{building_name}}, Floor number: {{floor_num}}</h2>
+			</div>
+			<ul class="nav nav-tabs">
+			  <li class="active"><a data-toggle="tab" href="#normal_view">Physical View</a></li>
+			  <li><a data-toggle="tab" href="#robot_view" id="display_robot_btn">Robot View</a></li>
+			</ul>
+
+			<div class="tab-content">
+		  <div id="normal_view" class="tab-pane fade in active">
+		    <div class="toolbar">
+			<ul class="toolbar_list">
+				<li class="button-icon">
+					<a href="#" id="undo" title="Undo All Changes"  data-toggle="tooltip" data-placement="left"><i class="fa fa-undo fa-2x"></i></a>
+				</li>
+				<li class="button-icon disabled">
+					<a href="#" id="delete" title="Erase"  data-toggle="tooltip" data-placement="left"><i class="fa fa-eraser fa-2x"></i></a>
+				</li>
+				<li class="button-icon disabled">
+					<a href="#" id="virtual" title="Switch Visible <br> /Transparent" data-toggle="tooltip" data-placement="left"><i class="fa fa-eye fa-2x"></i></a>
+				</li>
+				<li class="button-icon">
+					<a href="#" id="draw_line" title="Draw Line"  data-toggle="tooltip" data-placement="left">
+						<svg height="27.4" width="27.4">
+  						<line x1="0" y1="0" x2="27.4" y2="27.4" style="stroke:black;stroke-width:5; text-align:center;" />
+						</svg>
+					</a>
+				</li>
+				<li class="button-icon">
+					<a href="#" id="draw_polygon" title="Draw Polygon"  data-toggle="tooltip" data-placement="left">
+						<svg height="27.4" width="27.4">
+  						<polygon points="0,0 27,0 12,15 27,27 0,27" style="stroke:black;stroke-width:5; text-align:center;" />
+						</svg>
+					</a>
+				</li>
+				<li class="button-icon">
+					<a href="#" id="rect_selection" title="Group Selection" data-toggle="tooltip" data-placement="left">
+						<svg height="27.4" width="27.4">
+  						<rect width="27" height="27" stroke-dasharray="2,2" style="stroke:black;stroke-width:3;fill:none; text-align:center;" />
+						</svg>
+					</a>
+				</li>
+				<li class="button-icon">
+					<a href="#" id="scale" title="Add Scale <br> click two points" data-toggle="tooltip" data-placement="left" data-target="#scaleModal"><i class="fa fa-arrows-h fa-2x"></i></a>
+				</li>
+				<li class="button-icon">
+					<a href="#" id="poi" title="Add Point <br> Of Interest"  data-toggle="tooltip" data-placement="left"><i class="fa fa-map-marker fa-2x"></i></a>
+				</li>
+			</ul>
+  	</div>	
+  	<div id="scale_bar" style="z-index:99;">
+  	</div>
+  	<div  id="floorplan" >		
+		</div>
+		  </div>
+		  <div id="robot_view" class="tab-pane fade">
+		    <div  id="floorplan_robot" >	
+				</div>
+		  </div>
+		</div>
+		</div>
+
+		<form id        =  "uploadForm"
+         action    =  "/update"
+         method    =  "post"
+    >  
+    	<input type="hidden" id="floorplan_name" name="floorplan_name">
+      <input type="hidden" id="floorplan_content" name="floorplan_content">
+      <input type="hidden" id="floorplan_scale_length" name="floorplan_scale_length">
+      <input type="hidden" id="floorplan_scale_unit" name="floorplan_scale_unit">
+      <input type="hidden" id="floorplan_poi" name="floorplan_poi">
+      <input type="hidden" id="floorplan_robot_view_content" name="floorplan_robot_view">
+
+      <input type="submit" value="Save" id="submit_button" name="submit" class="btn btn-large btn-primary">  
+    </form>
+     <a id="cancel_button" href="/"><button type="button" class="btn btn-large btn-primary" >Cancel</button></a>
+
+     <object  type="image/svg+xml" id="alphasvg" style="visibility:hidden; width:0; height:0" ></object>
+
+     <div id="scaleModal" class="modal fade" role="dialog">
+      <div class="modal-dialog modal-sm">
+        <!-- Modal content-->
+        <div class="modal-content">
+        	<div id = "scale-header" class="modal-header">
+    				<button type="button" class="close close_scale" data-dismiss="modal" aria-hidden="true">&times;</button>
+    				  
+    				<h3>Set Scale</h3>
+  				</div>
+  				<div class="modal-body">
+    				<form  id="scale_form">
+            <input type="radio" name="unit" value="meter" checked id="meter_input"> Meter
+  					
+  					<input type="radio" name="unit" value="feet" id="feet_input"> Feet
+  					<br>
+
+            <div id="wall_text"> Insert pysical length: </div>
+            <input type="number" name="length" step="0.1" min="0.1"  id="length_input"><br>       
+        		</form>
+  				</div>   
+          <div class="modal-footer">       
+            <input class="btn btn-success" type="submit" value="Save" id="submit_scale">
+            <button type="button" class="btn btn-default close_scale" data-dismiss="modal" >Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="poiModal" class="modal fade" role="dialog">
+      <div class="modal-dialog modal-sm">
+        <!-- Modal content-->
+        <div class="modal-content">
+        	<div id = "poi-header" class="modal-header">
+    				<button type="button" class="close close_poi" data-dismiss="modal" aria-hidden="true">&times;</button>
+    				  
+    				<h3>Set Point Of Interest</h3>
+  				</div>
+  				<div class="modal-body">
+    				<form  id="poi_form">
+            	<div id="poi_text"> Name: </div>
+            	<input type="text" name="poi_name" ><br>    
+             	<div id="poi_text"> Type: </div>
+            	<input type="text" name="poi_type" ><br>       
+        		</form>
+  				</div>   
+          <div class="modal-footer">       
+            <input class="btn btn-success" type="submit" value="Save" id="submit_poi">
+            <button type="button" class="btn btn-default close_poi" data-dismiss="modal" >Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+ </body>
+</html>  
+
