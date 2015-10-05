@@ -148,15 +148,16 @@ function find_xy(d,parent_node) {
 		var max_y = parseInt(d.d[1])+parseInt(d.d[3]) + t_y;
 		return [min_x, min_y, max_x, max_y]; 
 	}	
-	var min_x = 950;
-	var min_y = 600;
+	
+	var min_x = document.getElementById("floorplan").getElementsByTagName('svg')[0].width.baseVal.value;
+	var min_y = document.getElementById("floorplan").getElementsByTagName('svg')[0].height.baseVal.value;
 	var max_x = 0;
 	var max_y = 0;
 	var points_arr = path_find_cordinations(d.d);
 	for (var i=0; i < points_arr.length; i+=2) {
 		var tmp_x = parseInt(points_arr[i]) + t_x;
 		var tmp_y = parseInt(points_arr[i+1]) + t_y;
-		
+	//	console.log(tmp_x, tmp_y);
 		if ( tmp_x < min_x) {
 			min_x = tmp_x;
 		}
@@ -337,7 +338,7 @@ function disable_scale_form_input(input) {
 
 function path_find_cordinations(s) {
 	var a_match = /[A]/i;
-	var numbers = /\d+/g;
+	var numbers = /\d+\.?\d*/g;
 	var m;
 	var points_arr = [];
 	var new_s = s;
