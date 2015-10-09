@@ -1,9 +1,5 @@
 $( document ).ready(function() {
-   var data ={
-     firstName: "Christophe",
-     lastName: "Coenraets"
-  };
-  //$('#result1').html(info); 
+   
   var arr_data = $('#result2').html().trim().split(",");
   var building_arr = [];
   var floor_arr = [];
@@ -18,15 +14,12 @@ $( document ).ready(function() {
 
   var building_arr_unique = building_arr.filter( onlyUnique ); 
 
-
   for (var i=0; i< building_arr_unique.length;i++) {
     var template =  '<option value="'+building_arr_unique[i]+'">'+building_arr_unique[i]+'</option>';
     $('#building_open').append(template);
   }
   
   document.getElementById("floor_open").disabled = true;
- // var info = Mustache.to_html(template, data);
-
 
   $('[data-toggle="popover"]').popover({container:'body', html:true}); 
   var query_string = {};
