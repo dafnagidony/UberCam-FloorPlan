@@ -15,11 +15,9 @@ client.connect();
 app.use(cookieParser());
 app.use(expressSession({secret:'ubercam secret'}));
 app.use(bodyParser.urlencoded({ extended: true }));
-//app.set('view engine', 'jade');
 app.engine('mustache', mustacheExpress());
 app.set('view engine', 'mustache');
 app.set('views', __dirname + '/views');
-//app.engine('html', require('ejs').renderFile);
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'files')));
 
@@ -99,7 +97,6 @@ app.post('/load', function(req,res){
       }
       if (result && result.rowCount > 0) {
       req.session.attributes_arr = result.rows[0].attributes;
-     
       var image_name = result.rows[0].image_name;
       req.session.image_id = result.rows[0].image_id;
       req.session.image_name = image_name;
@@ -108,7 +105,6 @@ app.post('/load', function(req,res){
       res.redirect('/?name=' + image_name);
     }
     else {
-  
       res.redirect('/?load_error=Floor plan doesn\'t exist' );
     }
   });
@@ -153,7 +149,6 @@ app.get('/edit_temp', function(req,res){
   res.cookie('scale_length', req.session.attributes_arr.scale_length);
   res.cookie('scale_unit', req.session.attributes_arr.scale_unit);
   res.cookie('poi', JSON.stringify(req.session.attributes_arr.poi) ,{ maxAge: minute });
- // res.redirect('/edit/?image_name='+ req.session.image_name+"&scale_length="+req.session.attributes_arr.scale_length+"&scale_unit="+req.session.attributes_arr.scale_unit);
  res.redirect('/edit/?image_name='+ req.session.image_name);
 });
 
@@ -172,13 +167,11 @@ app.post('/update', function(req,res){
   req.session.robot_name = robot_name;
   fs.writeFileSync('public/images/'+ robot_name, robot); 
   fs.writeFileSync('public/images/'+ image_name, req.body.floorplan_content); 
-
   var scale_length = req.body.floorplan_scale_length;
   var scale_unit = req.body.floorplan_scale_unit;
   var poi_arr =req.body.floorplan_poi;
   var update_attributes = '{"poi": '+ poi_arr + ',"scale_unit": "'+ scale_unit+'", "scale_length":'+scale_length+', "floor": '+req.session.floor_num+', "building": "' + req.session.building_name+'"}';
   client.query("UPDATE floorplans_table SET image_name = $3, robot_view=$4, attributes =$2 WHERE image_id = $1",[req.session.image_id, update_attributes, image_name, robot_name]);
-  
   if (prev_image_name != undefined) {
     client.query("SELECT * FROM floorplans_table WHERE image_name = $1", [prev_image_name], function(err, result) {
       if(err) {
@@ -247,7 +240,7 @@ app.get('/robot', function(req,res){
 });
 
 //*Run the server.*/
-var port = process.env.PORT || 8080;
+var port = 8080;
 app.listen(port,function(){
     console.log('Listening on ' + port);
 });
